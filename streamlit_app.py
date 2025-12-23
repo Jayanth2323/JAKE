@@ -3,9 +3,9 @@ import google.generativeai as genai
 
 
 # Show title and description.
-st.title("💬 Gemini Chatbot")
+st.title("💬JAKE")
 st.write(
-    "This is a simple chatbot that uses Google's Gemini 3 Flash model to generate responses. "
+    "This is a simple chatbot that uses Google's Gemini 2.5 Flash model to generate responses. "
     "To use this app, you need to provide a Gemini API key, which you can get [here](https://makersuite.google.com/app/apikey). "
     "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
 )
@@ -49,7 +49,7 @@ else:
                 gemini_messages.append({"role": "model", "parts": [{"text": message["content"]}]})
 
         # Generate a response using the Gemini API.
-        model = genai.GenerativeModel('gemini-3-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):

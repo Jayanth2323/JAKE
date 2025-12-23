@@ -7,7 +7,7 @@
 ![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-red?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge)
 
-**Experience the future of conversational AI with JAKE - powered by Google's cutting-edge Gemini 3 Flash model**
+**Experience the future of conversational AI with JAKE - powered by Google's cutting-edge Gemini 2.5 Flash Lite model**
 
 [![Get Started](#-quick-start)](#-quick-start)
 [![Live Demo](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://jake-chatbot.streamlit.app/)
@@ -19,7 +19,7 @@
 
 ## ✨ What Makes JAKE Special?
 
-JAKE isn't just another chatbot - it's your **intelligent conversational companion** designed to provide meaningful, context-aware interactions. Built on Google's revolutionary Gemini 3 Flash model, JAKE brings you:
+JAKE isn't just another chatbot - it's your **intelligent conversational companion** designed to provide meaningful, context-aware interactions. Built on Google's revolutionary Gemini 2.5 Flash Lite model, JAKE brings you:
 
 - 🧠 **Advanced Intelligence**: Powered by Google's most advanced AI model
 - ⚡ **Lightning Fast**: Real-time streaming responses for natural conversations  
@@ -90,7 +90,7 @@ JAKE isn't just another chatbot - it's your **intelligent conversational compani
 
 ### Core Technologies
 - **Frontend**: Streamlit (Interactive web interface)
-- **AI Engine**: Google Gemini 3 Flash (State-of-the-art language model)
+- **AI Engine**: Google Gemini 2.5 Flash Lite (State-of-the-art language model)
 - **Language**: Python 3.8+
 - **Session Management**: Streamlit's built-in session state
 
@@ -101,7 +101,7 @@ JAKE isn't just another chatbot - it's your **intelligent conversational compani
 ├─────────────────────────────────────┤
 │     Session State Management              │
 ├─────────────────────────────────────┤
-│     Gemini 3 Flash API Integration        │
+│     Gemini 2.5 Flash Lite API Integration        │
 ├─────────────────────────────────────┤
 │     Real-time Streaming Responses         │
 └─────────────────────────────────────┘
@@ -254,7 +254,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### Credits
 - 🤖 **JAKE** - Created with ❤️ by the development team
-- 🧠 **Powered by Google Gemini 3 Flash** - Cutting-edge AI technology
+- 🧠 **Powered by Google Gemini 2.5 Flash Lite** - Cutting-edge AI technology
 - 🎨 **Built with Streamlit** - Amazing Python web framework
 - 📝 **Documentation** - Comprehensive guides and examples
 
