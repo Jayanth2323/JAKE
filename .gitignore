@@ -11,6 +11,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 TODO.md
+COMPLETION_REPORT.md
+FINAL_STATUS.md
+
 build/
 develop-eggs/
 dist/
