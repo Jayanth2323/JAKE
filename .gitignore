@@ -1,4 +1,5 @@
 .streamlit/secrets.toml
+# Don't ignore the main documentation files that are part of the project
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -10,9 +11,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-TODO.md
-COMPLETION_REPORT.md
-FINAL_STATUS.md
+# TODO.md - Keep for project tracking
+# COMPLETION_REPORT.md - Keep as project documentation  
+# FINAL_STATUS.md - Keep as final documentation
 
 build/
 develop-eggs/
