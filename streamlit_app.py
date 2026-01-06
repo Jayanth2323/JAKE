@@ -1,6 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
+import styles
+from urllib.parse import quote
+import json
+import os
+from PIL import Image
+from rembg import remove
 
+# Define the logo path
+LOGO_PATH = "JAKE.png"
+
+# Configure page settings (Favicon & Title)
+st.set_page_config(page_title="JAKE Intelligence", page_icon=LOGO_PATH)
 
 # Model fallback list - prioritized by availability based on user's rate limits
 # gemini-2.5-flash-lite: 1/10 RPM (most available)
@@ -19,13 +30,134 @@ GEMINI_MODELS = [
 PRIMARY_MODEL = GEMINI_MODELS[0]
 MODEL_DISPLAY_NAME = PRIMARY_MODEL.replace("-", " ").title().replace(" ", " ").replace("Flash", "Flash ").replace("Exp", "Exp").strip()
 
+# Initialize session state for messages if not present
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Initialize authentication state
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+if "user_name" not in st.session_state:
+    st.session_state.user_name = ""
+
 # Show title and description.
-st.title("💬JAKE")
-st.write(
-    f"This is a simple chatbot that uses Google's {MODEL_DISPLAY_NAME} model to generate responses. "
-    "To use this app, you need to provide a Gemini API key, which you can get [here](https://makersuite.google.com/app/apikey). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
-)
+styles.apply_custom_css()
+
+@st.cache_data
+def get_logo_image():
+    """Loads the logo and removes the background."""
+    if os.path.exists(LOGO_PATH):
+        try:
+            image = Image.open(LOGO_PATH)
+            return remove(image)
+        except Exception:
+            img = Image.open(LOGO_PATH)
+            img.load()  # Ensure image data is loaded into memory
+            return img
+    return None
+
+# --- Authentication Logic ---
+if not st.session_state.authenticated:
+    # Centered Layout for Login
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        # Logo on Login Screen
+        c1, c2, c3 = st.columns([1, 1, 1])
+        with c2:
+            st.image(get_logo_image(), width=120)
+        st.markdown('<div class="login-header">Welcome to JAKE Intelligence</div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-sub">Please provide your name and mobile number to continue</div>', unsafe_allow_html=True)
+        
+        tab1, tab2 = st.tabs(["Login", "Sign Up"])
+        
+        with tab1:
+            l_mobile = st.text_input("Mobile Number", key="l_mobile", placeholder="Enter your mobile number")
+            l_name = st.text_input("Name", key="l_name", placeholder="Enter your name")
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("🚀 Login", use_container_width=True):
+                if os.path.exists('users.json'):
+                    try:
+                        with open('users.json', 'r') as f:
+                            users = json.load(f)
+                        # Check if mobile exists and name matches
+                        if l_mobile in users and users[l_mobile] == l_name:
+                            st.session_state.authenticated = True
+                            st.session_state.user_name = l_name
+                            st.rerun()
+                        else:
+                            st.error("Invalid credentials or user not found.")
+                    except json.JSONDecodeError:
+                        st.error("User database is corrupted.")
+                else:
+                    st.error("No users registered yet.")
+
+        with tab2:
+            s_name = st.text_input("Name", key="s_name", placeholder="Choose a display name")
+            s_mobile = st.text_input("Mobile Number", key="s_mobile", placeholder="Enter your mobile number")
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("✨ Sign Up", use_container_width=True):
+                if s_name and s_mobile:
+                    users = {}
+                    if os.path.exists('users.json'):
+                        try:
+                            with open('users.json', 'r') as f:
+                                users = json.load(f)
+                        except json.JSONDecodeError:
+                            users = {}
+                    
+                    users[s_mobile] = s_name
+                    with open('users.json', 'w') as f:
+                        json.dump(users, f)
+                    st.success("Account created! Please Login.")
+                else:
+                    st.warning("Please fill all fields.")
+    st.stop()
+
+# Dynamic Greeting Logic
+greeting = f"Hello {st.session_state.user_name}" if len(st.session_state.messages) == 0 else f"Hey {st.session_state.user_name}"
+st.title(f"{greeting} 👋 💬JAKE")
+
+with st.sidebar:
+    st.image(get_logo_image(), width=150)
+    st.write(
+        f"This is a simple chatbot that uses Google's {MODEL_DISPLAY_NAME} model to generate responses. "
+        "To use this app, you need to provide a Gemini API key, which you can get [here](https://makersuite.google.com/app/apikey). "
+        "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
+    )
+
+    if st.button("Logout", type="secondary"):
+        st.session_state.authenticated = False
+        st.session_state.user_name = ""
+        st.rerun()
+    
+    # --- Conversation Actions ---
+    st.markdown("---")
+    st.subheader("📂 Conversation Options")
+    
+    # Prepare chat text for export
+    chat_text = "\n\n".join([f"[{m['role'].upper()}]: {m['content']}" for m in st.session_state.messages])
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Download Button
+        st.download_button(
+            label="📥 Download",
+            data=chat_text,
+            file_name="jake_chat_history.txt",
+            mime="text/plain"
+        )
+    
+    with col2:
+        # Share Button (Mailto link)
+        subject = quote("My Conversation with JAKE")
+        body = quote(chat_text)
+        st.link_button("📤 Share", f"mailto:?subject={subject}&body={body}")
+
+    # Copy Option (Expandable code block)
+    with st.expander("📋 View & Copy Transcript"):
+        st.code(chat_text, language="text")
+        st.caption("Click the copy icon in the top right of the box above.")
 
 # Access the Gemini API key from Streamlit secrets
 try:
@@ -76,11 +208,6 @@ def generate_response_with_fallback(messages, generation_config):
     
     # All models failed
     raise last_error
-
-# Create a session state variable to store the chat messages. This ensures that the
-# messages persist across reruns.
-if "messages" not in st.session_state:
-    st.session_state.messages = []
 
 # Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.messages:
