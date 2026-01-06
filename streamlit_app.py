@@ -5,10 +5,13 @@ from urllib.parse import quote
 import json
 import os
 from PIL import Image
-from rembg import remove
+try:
+    from rembg import remove
+except ImportError:
+    remove = None
 
 # Define the logo path
-LOGO_PATH = "JAKE.png"
+LOGO_PATH = "logo.png"
 
 # Configure page settings (Favicon & Title)
 st.set_page_config(page_title="JAKE Intelligence", page_icon=LOGO_PATH)
@@ -49,7 +52,9 @@ def get_logo_image():
     if os.path.exists(LOGO_PATH):
         try:
             image = Image.open(LOGO_PATH)
-            return remove(image)
+            if remove:
+                return remove(image)
+            return image
         except Exception:
             img = Image.open(LOGO_PATH)
             img.load()  # Ensure image data is loaded into memory
