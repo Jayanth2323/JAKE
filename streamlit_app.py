@@ -228,8 +228,8 @@ with st.sidebar:
 # Access the Gemini API key from Streamlit secrets
 try:
     gemini_api_key = st.secrets["JAKEAPI"]
-    # Configure the Gemini API
-    genai.configure(api_key=gemini_api_key)
+    # Configure the modern Gemini API Client
+    client = genai.Client(api_key=gemini_api_key)
 except KeyError:
     st.error(
         "JAKEAPI secret not found. "
