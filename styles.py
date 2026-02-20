@@ -64,7 +64,7 @@ def apply_custom_css():
 
             /* 3.1 Enhanced Chat Input */
             .stTextInput > div > div > input {
-                background-color: rgba(255, 255, 255, 0.1);
+                background-color: rgba(0, 0, 0, 0.3);
                 color: white;
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 25px;
@@ -73,7 +73,7 @@ def apply_custom_css():
             }
 
             .stTextInput > div > div > input:focus {
-                background-color: rgba(255, 255, 255, 0.2);
+                background-color: rgba(0, 0, 0, 0.5);
                 border-color: rgba(255, 255, 255, 0.5);
                 box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             }
@@ -152,12 +152,11 @@ def apply_custom_css():
             
             /* 5.2 Login Screen Typography */
             .login-header {
-                font-size: 2.5rem !important;
+                font-size: 2rem !important;
                 font-weight: 800 !important;
                 text-align: center;
-                background: linear-gradient(120deg, #ffffff, #84fab0);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
+                color: white;
+                text-shadow: 0 4px 15px rgba(0,0,0,0.3);
                 margin-bottom: 0.5rem;
                 padding-bottom: 10px;
             }
@@ -168,6 +167,32 @@ def apply_custom_css():
                 font-size: 1.1rem;
                 margin-bottom: 2rem;
                 font-weight: 400;
+            }
+
+            /* 5.3 Login Card Container */
+            /* Target the vertical block containing our marker */
+            div[data-testid="stVerticalBlock"]:has(div.login-card-marker) {
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
+                padding: 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+            /* 5.4 Logo Animation */
+            div[data-testid="stVerticalBlock"]:has(div.login-card-marker) img {
+                animation: float 4s ease-in-out infinite;
+                filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+            }
+
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-12px); }
+                100% { transform: translateY(0px); }
             }
         </style>
     """, unsafe_allow_html=True)
