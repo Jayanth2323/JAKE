@@ -131,7 +131,7 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+.venv/
 env/
 venv/
 ENV/
@@ -175,3 +175,4 @@ JAKE.png
 TODO.md
 COMPLETION_REPORT.md
 FINAL_STATUS.md
+users.json
