@@ -96,15 +96,15 @@ JAKE isn't just another chatbot - it's your **intelligent conversational compani
 
 ### Key Features Implementation
 ```
-┌─────────────────────────────────────┐
+┌─────────────────────────────────────────────┐
 │         User Interface (Streamlit)          │
-├─────────────────────────────────────┤
-│     Session State Management              │
-├─────────────────────────────────────┤
-│     Gemini 2.5 Flash Lite API Integration        │
-├─────────────────────────────────────┤
-│     Real-time Streaming Responses         │
-└─────────────────────────────────────┘
+├─────────────────────────────────────────────┤
+│     Session State Management                │
+├─────────────────────────────────────────────┤
+│     Gemini 2.5 Flash Lite API Integration   |     │
+├─────────────────────────────────────────────┤
+│     Real-time Streaming Responses           │
+└─────────────────────────────────────────────┘
 ```
 
 ### Dependencies
